@@ -54,6 +54,9 @@ function placeMaker(location) {
     
     <div id="newcrimeform">
         <h2>Submit new crime</h2>
+        {% if error_message %}
+            <div id="error"><p>{{ error_message }}</p></div>
+        {% endif %}
         <form action="/submitcrime" method="POST">
             <label for="category">Category</label>
             <select id="category" name="category">
