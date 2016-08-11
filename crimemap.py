@@ -5,13 +5,17 @@ import json
 
 app = Flask(__name__)
 DB = DBHelper()
+categories = [
+    'mugging',
+    'break-in',
+]
 
 
 @app.route('/')
 def home():
     crimes = DB.get_all_crimes()
     crimes = json.dumps(crimes)
-    return render_template("home.html", crimes=crimes)
+    return render_template("home.html", crimes=crimes, categories=categories)
 
 
 @app.route('/add', methods=["POST"])
@@ -36,6 +40,8 @@ def clear():
 @app.route('/submitcrime', methods=['POST'])
 def submitcrime():
     category = request.form.get("category")
+    if category not in categories:
+        return home()
     date = request.form.get("date")
     latitude = float(request.form.get("latitude"))
     longitude = float(request.form.get("longitude"))
