@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 import json
 import dateparser
 import datetime
+import string
 
 
 app = Flask(__name__)
@@ -53,6 +54,7 @@ def submitcrime():
     except ValueError:
         return home()
     description = request.form.get("description")
+    description = sanitize_string(request.form.get("description"))
     DB.add_crime(category, date, latitude, longitude, description)
     return home()
 
@@ -63,6 +65,11 @@ def format_date(userdate):
         return datetime.datetime.strftime(date, "%Y-%m-%d")
     except TypeError:
         return None
+
+
+def sanitize_string(userinput):
+    whitelist = string.letters + string.digits + " !?#.,;:-'()&"
+    return filter(lambda x: x in whitelist, userinput)
 
 
 if __name__ == '__main__':
