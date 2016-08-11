@@ -1,5 +1,5 @@
 from dbhelper import DBHelper
-from flask import Flask, render_tempalte, request
+from flask import Flask, render_template, request
 
 
 app = Flask(__name__)
@@ -13,10 +13,10 @@ def home():
     except Exception as e:
         print(e)
         data = None
-    return render_tempalte("home.html", data=data)
+    return render_template("home.html", data=data)
 
 
-@app.route('/add', mehotds=["POST"])
+@app.route('/add', methods=["POST"])
 def add():
     try:
         data = request.form.get("userinput")
