@@ -43,8 +43,11 @@ def submitcrime():
     if category not in categories:
         return home()
     date = request.form.get("date")
-    latitude = float(request.form.get("latitude"))
-    longitude = float(request.form.get("longitude"))
+    try:
+        latitude = float(request.form.get("latitude"))
+        longitude = float(request.form.get("longitude"))
+    except ValueError:
+        return home()
     description = request.form.get("description")
     DB.add_crime(category, date, latitude, longitude, description)
     return home()
